@@ -985,4 +985,4 @@ $(document).ready(function() {
             el.parentNode.insertBefore(div, el.nextSibling);
         }
     });
-    })
+})
