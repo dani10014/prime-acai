@@ -195,20 +195,48 @@ function atribuirEventosBotoes() {
     });
 }
 // --- GEOLOCALIZAÇÃO ---
+// --- GEOLOCALIZAÇÃO ---
 btnLocalizacao.addEventListener("click", () => {
     if (navigator.geolocation) {
         btnLocalizacao.innerHTML = "⏳ Calculando...";
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latC = position.coords.latitude;
-            const lngC = position.coords.longitude;
-            const dist = calcularDistancia(LOJA_LAT, LOJA_LNG, latC, lngC);
-            TAXA_ENTREGA_ATUAL = definirPrecoPorKM(dist);
-            // Procure essa linha dentro do navigator.geolocation e substitua:
-            document.getElementById("endereco").value = `https://www.google.com/maps?q=${latC},${lngC}`;
-            document.getElementById("exibir-taxa-entrega").innerText = `Gs ${TAXA_ENTREGA_ATUAL.toLocaleString('pt-BR')} (${dist.toFixed(1)} km)`;
-            btnLocalizacao.innerHTML = "✅ Frete Calculado";
-            atualizarTotais();
-        }, () => alert("Ative o GPS!"));
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                // LOCALIZAÇÃO ENCONTRADA COM SUCESSO
+                const latC = position.coords.latitude;
+                const lngC = position.coords.longitude;
+                const dist = calcularDistancia(LOJA_LAT, LOJA_LNG, latC, lngC);
+                
+                TAXA_ENTREGA_ATUAL = definirPrecoPorKM(dist);
+                
+                document.getElementById("endereco").value = `https://www.google.com/maps?q=${latC},${lngC}`;
+                document.getElementById("exibir-taxa-entrega").innerText = `Gs ${TAXA_ENTREGA_ATUAL.toLocaleString('pt-BR')} (${dist.toFixed(1)} km)`;
+                
+                btnLocalizacao.innerHTML = "✅ Frete Calculado";
+                atualizarTotais();
+            },
+            (error) => {
+                // TRATAMENTO DE ERRO SE O CLIENTE NÃO LIGAR O GPS OU BLOQUEAR
+                console.error("Erro de geolocalização:", error);
+                
+                // 1. Destrava o botão para o cliente poder tentar de novo
+                btnLocalizacao.innerHTML = "📍 Calcule seu Frete"; 
+                
+                // 2. Manda a mensagem certa na cara do cliente para ele se ligar
+                if (error.code === error.PERMISSION_DENIED) {
+                    alert("⚠️ Atenção: Você bloqueou o acesso à localização! Para receber seu açaí, por favor, ative o GPS/Localização do celular e permita o acesso no site.");
+                } else if (error.code === error.POSITION_UNAVAILABLE) {
+                    alert("⚠️ Sinal do GPS indisponível. Verifique se a localização do seu celular está ligada.");
+                } else if (error.code === error.TIMEOUT) {
+                    alert("⚠️ O carregamento demorou muito. Tente clicar em calcular novamente.");
+                } else {
+                    alert("⚠️ Por favor, ative o GPS do seu celular para calcular o frete.");
+                }
+            },
+            { enableHighAccuracy: true, timeout: 10000 } // Configuração extra para pegar o GPS mais rápido e preciso
+        );
+    } else {
+        alert("Seu navegador não suporta geolocalização.");
     }
 });// 1. Variável global para guardar o pagamento (começa com Pix porque o botão já é azul no HTML)
 
