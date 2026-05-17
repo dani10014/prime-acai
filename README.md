@@ -1,6 +1,6 @@
 # [Prime Açai](https://projeto-e-comerce.vercel.app/) 💜 
 
-O **Prime Açai** nasceu originalmente como um projeto de treinamento pessoal, com uma estrutura de código bem básica e crua. Se você quiser ver como era a arquitetura inicial do projeto, você pode conferir neste link: [Histórico Inicial - Código Cru](https://github.com/dani10014/base-prime-acai.git)).
+O **Prime Açai** nasceu originalmente como um projeto de treinamento pessoal, com uma estrutura de código bem básica e crua. Se você quiser ver como era a arquitetura inicial do projeto, você pode conferir neste link: [Histórico Inicial - Código Cru](https://github.com/dani10014/base-prime-acai.git).
 
 No entanto, decidi validar o projeto no mercado real. Realizei a prospecção ativa de 20 estabelecimentos locais e fechei a venda com um cliente real. A partir disso, o projeto foi totalmente reestruturado e transformado em um sistema de ponta, focado nas regras de negócio e necessidades reais desse cliente.
 
